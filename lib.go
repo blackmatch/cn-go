@@ -57,12 +57,15 @@ func GetLatestPageData() PublishPageData {
 
 // GetMetaData 获取源数据
 func GetMetaData(mData MetaData, s1 string, s2 string) []MetaData {
-	time.Sleep(200 * time.Millisecond)
+	time.Sleep(250 * time.Millisecond)
 	url := mData.PageURL
 	if len(url) == 0 {
 		return make([]MetaData, 0)
 	}
-	resp, err := http.Get(url)
+	httpClient := http.Client{
+		Timeout: time.Second * 60 * 5,
+	}
+	resp, err := httpClient.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
